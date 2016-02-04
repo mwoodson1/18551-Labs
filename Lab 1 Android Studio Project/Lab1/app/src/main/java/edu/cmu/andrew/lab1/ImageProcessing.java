@@ -156,7 +156,7 @@ public class ImageProcessing extends AppCompatActivity {
                 Bitmap processedImage;
                 Mat src = new Mat(bm.getHeight(), bm.getWidth(), CvType.CV_8UC4);
                 Utils.bitmapToMat(bm, src);
-                Imgproc.canny(src, src, 10, 100, 3);
+                //Imgproc.canny(src, src, 10, 100, 3);
                 processedImage = Bitmap.createBitmap(src.cols(), src.rows(),
                         Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(src, processedImage);
