@@ -51,12 +51,9 @@ public class ImageProcessing extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Mat x = new Mat();
-
-        setContentView(R.layout.activity_image_processing);
+        setContentView(R.layout.activity_main);
         btnSelect = (Button) findViewById(R.id.btnSelectPhoto);
         btnSelect.setOnClickListener(new OnClickListener() {
 
@@ -66,7 +63,6 @@ public class ImageProcessing extends AppCompatActivity {
             }
         });
         ivImage = (ImageView) findViewById(R.id.ivImage);
-
     }
 
 
@@ -105,8 +101,6 @@ public class ImageProcessing extends AppCompatActivity {
 
         }
     }
-
-
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
@@ -156,7 +150,8 @@ public class ImageProcessing extends AppCompatActivity {
                 Bitmap processedImage;
                 Mat src = new Mat(bm.getHeight(), bm.getWidth(), CvType.CV_8UC4);
                 Utils.bitmapToMat(bm, src);
-                //Imgproc.canny(src, src, 10, 100, 3);
+                //Need to ask Ana about these numbers
+                Imgproc.Canny(src, src, 10, 100, 3, true);
                 processedImage = Bitmap.createBitmap(src.cols(), src.rows(),
                         Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(src, processedImage);

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/home/mwoodson/Projects/18551-Labs/Lab 1 Android Studio Project/Lab1/libraries/opencv/src/main/assets"/></dataSet><dataSet config="debug"><source path="/home/mwoodson/Projects/18551-Labs/Lab 1 Android Studio Project/Lab1/libraries/opencv/src/debug/assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/seoheunlee/AndroidStudioProjects/Lab1/libraries/opencv/src/main/assets"/></dataSet><dataSet config="debug"><source path="/Users/seoheunlee/AndroidStudioProjects/Lab1/libraries/opencv/src/debug/assets"/></dataSet></merger>
