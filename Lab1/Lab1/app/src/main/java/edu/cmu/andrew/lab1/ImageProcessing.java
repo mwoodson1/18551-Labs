@@ -41,7 +41,6 @@ import android.util.Log;
 public class ImageProcessing extends AppCompatActivity {
 
     int SELECT_FILE = 1;
-    Button btnSelect;
     ImageView ivImage;
 
     static {
@@ -53,15 +52,16 @@ public class ImageProcessing extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btnSelect = (Button) findViewById(R.id.btnSelectPhoto);
-        btnSelect.setOnClickListener(new OnClickListener() {
+        setContentView(R.layout.activity_image_processing);
 
-            @Override
-            public void onClick(View v) {
+        Button selectButton;
+        selectButton = (Button)findViewById(R.id.btnSelectPhoto);
+        selectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
                 selectImage();
             }
         });
+
         ivImage = (ImageView) findViewById(R.id.ivImage);
     }
 
