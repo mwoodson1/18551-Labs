@@ -150,11 +150,13 @@ public class ImageProcessing extends AppCompatActivity {
                 Bitmap processedImage;
                 Mat src = new Mat(bm.getHeight(), bm.getWidth(), CvType.CV_8UC4);
                 Utils.bitmapToMat(bm, src);
-                //Need to ask Ana about these numbers
-                Imgproc.Canny(src, src, 10, 100, 3, true);
-                processedImage = Bitmap.createBitmap(src.cols(), src.rows(),
+                Mat gray = new Mat(bm.getHeight(), bm.getWidth(), CvType.CV_8UC4);
+                Imgproc.cvtColor(src,gray,Imgproc.COLOR_BGR2GRAY);
+
+                Imgproc.Canny(gray, gray, 10, 100, 3, true);
+                processedImage = Bitmap.createBitmap(gray.cols(), gray.rows(),
                         Bitmap.Config.ARGB_8888);
-                Utils.matToBitmap(src, processedImage);
+                Utils.matToBitmap(gray, processedImage);
                 ivImage.setImageBitmap(processedImage);
             }
         });
