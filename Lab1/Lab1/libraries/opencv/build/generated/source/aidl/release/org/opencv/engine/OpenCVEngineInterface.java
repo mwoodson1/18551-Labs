@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /home/mwoodson/Documents/Projects/18551-Labs/Lab1/Lab1/libraries/opencv/src/org/opencv/engine/OpenCVEngineInterface.aidl
+ * Original file: /home/mwoodson/Projects/18551-Labs/Lab1/Lab1/libraries/opencv/src/org/opencv/engine/OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**
