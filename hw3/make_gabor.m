@@ -1,0 +1,37 @@
+function [g1,g2,g3] = make_gabor(sigma,theta,k)
+%MAKE_GABOR Creates a bank of 3 Gabor filters
+%   Detailed explanation goes here
+gamma = 2;
+lambda = 0.6;
+psi = 0;
+N = 1/(k*k);
+
+theta1 = theta(1);
+theta2 = theta(2);
+theta3 = theta(3);
+
+sigma1 = sigma(1);
+sigma2 = sigma(2);
+sigma3 = sigma(3);
+
+g1 = zeros(k,k);
+g2 = zeros(k,k);
+g3 = zeros(k,k);
+
+for x=1:k
+    for y=1:k
+        x11 = x*cos(theta1)+y*sin(theta1);
+        x12 = x*cos(theta2)+y*sin(theta2);
+        x13 = x*cos(theta3)+y*sin(theta3);
+        
+        y11 = -x*sin(theta1)+y*cos(theta1);
+        y12 = -x*sin(theta2)+y*cos(theta2);
+        y13 = -x*sin(theta3)+y*cos(theta3);
+        
+        g1(x,y) = N*exp(-(x11^2 + gamma^2 * y11^2/(2 * sigma1^2))) * cos(2*pi*(x11/lambda)+psi);
+        g2(x,y) = N*exp(-(x12^2 + gamma^2 * y12^2/(2 * sigma2^2))) * cos(2*pi*(x12/lambda)+psi);
+        g3(x,y) = N*exp(-(x13^2 + gamma^2 * y13^2/(2 * sigma3^2))) * cos(2*pi*(x13/lambda)+psi);
+    end
+end
+end
+

@@ -1,0 +1,18 @@
+%Set filter parameters
+k = ;
+sigma = ;
+wavelength = ;
+orientation = ;
+
+%Create Filters
+[g_x,g_y] = make_gaussian(k,sigma);
+LoG_f = make_LoG(gaussian_f);
+[g1,g2,g3] = make_gabor(wavelength,orientation);
+
+%Go through training images and convolve with filters
+img_X=imfilter(img,g_x);
+img_XY=imfilter(img_X,g_y);  %DONE
+
+%Train SVM classifier
+
+%Test classifier on test images
