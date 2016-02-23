@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/mwoodson/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.1/support-annotations-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8d680ba5a623724d1fb0e81c36a790f023a6cede">
+        <dex dex="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.1_3b83d474ed9dfbce83d091ab15d922548975bd24.jar" />
+    </item>
+    <item
+        jar="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6cbc7773921fcfedbe55657578f0cbfe614778dc">
+        <dex dex="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.1_c701b5c2035eee3554650065a4cd8b02faa9f838.jar" />
+    </item>
+    <item
+        jar="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/jars/libs/internal_impl-23.1.1.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="a4de9c81ae239414e1ed0f86441b02abaf29bca9">
+        <dex dex="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.1_e732dd5f90119fdfb0f03a2a067de11a58433a31.jar" />
+    </item>
+    <item
+        jar="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/exploded-aar/ImageManipulations.libraries/opencv/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="4fe4b2de6a47abc191c499882ecb86ddda908ac8">
+        <dex dex="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/pre-dexed/debug/ImageManipulations.libraries-opencv-unspecified_673cdf04b432f121725c034003113791101a40d8.jar" />
+    </item>
+    <item
+        jar="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="5c5699834e9722f1c288fea2de82725d078ba127">
+        <dex dex="/home/mwoodson/Projects/18551-Labs/ImageManipulations/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.1_ce5c1c670781385006eafaf4e9b9065565949552.jar" />
+    </item>
+
+</items>
