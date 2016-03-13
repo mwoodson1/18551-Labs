@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import cv2
+from numpy import linalg as LA
 
 def denoiseSilhouette(img):
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(7,7))
@@ -51,6 +52,16 @@ for i in xrange(len(cnt)):
 	drawing_cnt[y,x] = 255
 	cv2.imshow('Temp',drawing_cnt)
 	print "Pixel distance to centroid is: ",dists[i]
-	cv2.waitKey(10)
+	cv2.waitKey(5)
+
+#L1 normalization of distances
+dists_norm = dists / LA.norm(dists,1)
+
+#Subsample the vector to a constant size
+indices = np.linspace(0,len(dists_norm),360,endpoint=False,dtype=np.int32)
+sampled_dists = dists_norm[indices]
+
+plt.plot(sampled_dists)
+plt.show()
 
 cv2.waitKey(0)
