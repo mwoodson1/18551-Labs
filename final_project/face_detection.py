@@ -1,9 +1,12 @@
 import cv2
 import sys
 
+#Need to run python face_detection.py haarcascade_frontalface_defaults.xml
+#for the code to run. This gets the first argument which is the xml
 cascPath = sys.argv[1]
 faceCascade = cv2.CascadeClassifier(cascPath)
 
+#Capture video from webcam
 video_capture = cv2.VideoCapture(0)
 
 while True:
