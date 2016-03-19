@@ -85,20 +85,25 @@ def loadData(datapath,dataset):
 	'''
 	N = 100   #The number of frames from each sequence to use
 	if(dataset=="MOBO"):
+		orientation_map = {'vr03_7':0,'vr05_7':1,'vr07_7':2,
+						   'vr13_7':3,'vr16_7':4,'vr17_7':5,}
+		X = np.zeros((6,100*25,360))
 		topLevel = datapath+"/moboBgSub/"
-		for userID in next(os.walk(topLevel))[1]:
-			#for mode in next(os.walk(topLevel+userID))[1]:
+		indices = [0,0,0,0,0,0]
+		for userID in sorted(next(os.walk(topLevel))[1]):
 			mode = "slowWalk"
-			for orientation in next(os.walk(topLevel+userID+"/"+"slowWalk"))[1]:
+			for orientation in sorted(next(os.walk(topLevel+userID+"/"+"slowWalk"))[1]):
 				n = 0
+				clf_index = orientation_map[orientation]
 				for img in sorted(next(os.walk(topLevel+userID+"/"+mode+"/"+orientation))[2]):
 					if(n >= N):
-						continue
+						break
 					img_path = topLevel+userID+"/"+mode+"/"+orientation+"/"+img
 					distSignal = toDistSeq(img_path)
-					print img_path
+					X[clf_index,indices[clf_index],:] = distSignal
+					indices[clf_index] += 1
 					n += 1
-					
+		return X
 
 	elif(dataset=="CASIA"):
 		topLevel = datapath+"/silhouettes/"
@@ -111,10 +116,12 @@ def loadData(datapath,dataset):
 	else:
 		print "Invalid dataset input"
 		return 0
-	return 0
 
 class GaitClassifier(object):
-	def __init__(self):
+	def __init__(self,datapath,dataset):
+		self.X = loadData(datapath,dataset)
+		self.y = None
+		print "Data loaded!"
 		pass
 
 	def train(self,X,y):
@@ -123,4 +130,4 @@ class GaitClassifier(object):
 	def predict(self,X):
 		pass
 
-loadData('data','MOBO')
+clf = GaitClassifier('data','MOBO')
