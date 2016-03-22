@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+
 cap = cv2.VideoCapture('768x576.avi')
 cv2.namedWindow("Original",1)
 bgs = cv2.createBackgroundSubtractorMOG2(detectShadows=False,varThreshold=28)
