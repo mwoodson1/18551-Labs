@@ -1,11 +1,13 @@
-import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import cv2
 from numpy import linalg as LA
 
 def denoiseSilhouette(img):
+	"""
+	The silhouettes can be noisy and have many empty spots so this function
+	tries to smooth the figure out.
+	"""
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(7,7))
 	erosion = cv2.erode(img,kernel,iterations = 2)
 	dilation = cv2.dilate(erosion,kernel,iterations = 3)
@@ -14,6 +16,12 @@ def denoiseSilhouette(img):
 	return closing
 
 def findMaxContour(img):
+	"""
+	Given the silhouette, this function returns the contour around the figure.
+
+	We also return the centroid of the figure which will be used in the 
+	computation of the 1D-signal for classification.
+	"""
 	img2, contour,hier = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
 	areas = [cv2.contourArea(c) for c in contour]
 	max_index = np.argmax(areas)
@@ -24,16 +32,16 @@ def findMaxContour(img):
 	cy = int(M['m01']/M['m00'])
 	return cx, cy, cnt
 
+#Read in example image
 img = cv2.imread('sil10017.pbm',0)
 
 denoised = denoiseSilhouette(img)
 
 cx, cy, cnt = findMaxContour(denoised)
 
-#Find distance betweem center to all contour poiints
-print len(cnt)
 dists = np.zeros(len(cnt))
 
+#Drawing the centroid 
 drawing_cnt = np.zeros(img.shape)
 drawing_cnt[cy,cx] = 255
 
@@ -44,6 +52,8 @@ drawing_cnt[cy+1,cx-1] = 255
 drawing_cnt[cy-1,cx] = 255
 drawing_cnt[cy-1,cx+1] = 255
 drawing_cnt[cy-1,cx-1] = 255
+
+#Find distance betweem center to all contour poiints
 for i in xrange(len(cnt)):
 	x = cnt[i][0][0]
 	y = cnt[i][0][1]
