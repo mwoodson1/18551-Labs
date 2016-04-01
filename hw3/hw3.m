@@ -8,7 +8,6 @@ theta = [30 45 60];
 [g_x,g_y] = make_gaussian(k,sigma_g);
 lap = make_laplacian(0.2);
 
-
 img=im2double(imread('04201d182_1.jp2'));
 %Go through training images and convolve with filters
 img_X=imfilter(img,g_x);
@@ -78,5 +77,24 @@ for file = files'
 end
 
 %Train SVM classifier
+X = [X_male;X_female];
+y = zeros(1,size(X,1));
+y(51:end) = 1;
+
+model = fitcsvm(X,y,'KernelFunction','rbf','Standardize',true);
+
+printHyperplane('svm_model',model);
 
 %Test classifier on test images
+img=im2double(imread('04201d182_1.jp2'));
+
+f1 = reshape(imfilter(imfilter(img,g_x),g_y),1,[]);
+f2 = reshape(imfilter(img,lap),1,[]);
+[g1,g2,g3] = make_gabor(img,sigma,theta);
+f3 = reshape(g1,1,[]);
+f4 = reshape(g2,1,[]);
+f5 = reshape(g3,1,[]);
+
+newX = [f1 f2 f3 f4 f5];
+
+[label, score] = predict(model,newX)
