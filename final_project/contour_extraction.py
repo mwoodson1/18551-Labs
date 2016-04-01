@@ -19,7 +19,7 @@ def findMaxContour(img):
 	"""
 	Given the silhouette, this function returns the contour around the figure.
 
-	We also return the centroid of the figure which will be used in the 
+	We also return the centroid of the figure which will be used in the
 	computation of the 1D-signal for classification.
 	"""
 	img2, contour,hier = cv2.findContours(img,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
@@ -33,7 +33,7 @@ def findMaxContour(img):
 	return cx, cy, cnt
 
 #Read in example image
-img = cv2.imread('sil10017.pbm',0)
+img = cv2.imread('data/sil10017.pbm',0)
 
 denoised = denoiseSilhouette(img)
 
@@ -41,7 +41,7 @@ cx, cy, cnt = findMaxContour(denoised)
 
 dists = np.zeros(len(cnt))
 
-#Drawing the centroid 
+#Drawing the centroid
 drawing_cnt = np.zeros(img.shape)
 drawing_cnt[cy,cx] = 255
 
