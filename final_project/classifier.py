@@ -17,9 +17,12 @@ import os
 import numpy as np
 import cv2
 from numpy import linalg as LA
+from sklearn import preprocessing
+from sklearn.cross_validation import train_test_split
 from sklearn.decomposition import PCA
 from sklearn import svm
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
 
 def denoiseSilhouette(img):
 	'''
@@ -88,6 +91,7 @@ def loadData(datapath,dataset):
 		orientation_map = {'vr03_7':0,'vr05_7':1,'vr07_7':2,
 						   'vr13_7':3,'vr16_7':4,'vr17_7':5,}
 		X = np.zeros((6,100*25,360))
+		y = np.zeros((6,100*25))
 		topLevel = datapath+"/moboBgSub/"
 		indices = [0,0,0,0,0,0]
 		for userID in sorted(next(os.walk(topLevel))[1]):
@@ -101,9 +105,10 @@ def loadData(datapath,dataset):
 					img_path = topLevel+userID+"/"+mode+"/"+orientation+"/"+img
 					distSignal = toDistSeq(img_path)
 					X[clf_index,indices[clf_index],:] = distSignal
+					y[clf_index,indices[clf_index]] = userID
 					indices[clf_index] += 1
 					n += 1
-		return X
+		return X, y
 
 	elif(dataset=="CASIA"):
 		topLevel = datapath+"/silhouettes/"
@@ -117,17 +122,21 @@ def loadData(datapath,dataset):
 		print "Invalid dataset input"
 		return 0
 
-class GaitClassifier(object):
-	def __init__(self,datapath,dataset):
-		self.X = loadData(datapath,dataset)
-		self.y = None
-		print "Data loaded!"
-		pass
+def gridSearch(X_train,y_train):
+	"""
+	Performs a grid search to find the best classifier hyperparameters using LDA
+	with a KNN classifier.
+	"""
+	component_grid = [5,10,20,50,75,100]
+	neighbor_grid = [2,3,4,5,6,7,9,11,15,20,25,30,40]
 
-	def train(self,X,y):
-		pass
+	estimators = [('reduce_dim', LDA(solver='eigen')), ('knn', KNeighborsClassifier())]
+	clf = Pipeline(estimators)
 
-	def predict(self,X):
-		pass
+	params = {'reduce_dim__n_components':neighbor_grid,
+	          'knn__n_neighbors':component_grid}
 
-clf = GaitClassifier('data','MOBO')
+	grid_search = GridSearchCV(clf,param_grid=params)
+	grid_search.fit(X_train,y_train)
+
+	return grid_search
