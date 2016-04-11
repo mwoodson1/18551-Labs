@@ -1,45 +1,63 @@
 function [g1,g2,g3] = make_gabor(img,sigma_arr,theta_arr)
 %MAKE_GABOR Creates a bank of 3 Gabor filters
 %   Detailed explanation goes here
-gamma = 2;
-lambda = 0.6;
-psi = 0;
-pi=180;
-[N M] = size(img);
+g1 = [1.333217626774525e-06, 0.006423328387286537, -0.03162732288945499, -0.03901155070683145, 0.0001001092995069366;
+ 6.105819694676262e-05, -0.03996212190050447, -0.3536963962869281, 0.1066950249630378, 0.000300123402551246;
+ -0.0003854078461423601, -0.006242137385118357, 1, -0.006242137385118357, -0.0003854078461423601;
+ 0.000300123402551246, 0.1066950249630378, -0.3536963962869281, -0.03996212190050447, 6.105819694676262e-05;
+ 0.0001001092995069366, -0.03901155070683145, -0.03162732288945499, 0.006423328387286537, 1.333217626774525e-06];
 
-g1 = zeros(N,M);
-g2 = zeros(N,M);
-g3 = zeros(N,M);
+g2 = [-0.008269976646932903, -0.01834115923484212, 0.01334183032729926, 0.0003510946109646082, 1.827855352649003e-07;
+ 0.005001953689906027, -0.08510009205393347, -0.3491049856716489, -0.02070634947064204, -2.39863584073444e-05;
+ 1.184775336444281e-05, 0.1452544441262339, 1, 0.1452544441262339, 1.184775336444281e-05;
+ -2.39863584073444e-05, -0.02070634947064204, -0.3491049856716489, -0.08510009205393347, 0.005001953689906027;
+ 1.827855352649003e-07, 0.0003510946109646082, 0.01334183032729926, -0.01834115923484212, -0.008269976646932903];
 
-sigma = sigma_arr(1);
-theta = theta_arr(1);
-for x=1:N
-  for y=1:M
-      x_theta=img(x,y)*cos(theta)+img(x,y)*sin(theta);
-      y_theta=-img(x,y)*sin(theta)+img(x,y)*cos(theta);
-      g1(x,y)= exp(-(x_theta.^2/2*sigma^2+ gamma^2*y_theta.^2/2*sigma^2))*cos(2*pi/lambda*x_theta+psi);
-  end
-end
+g3 = [0.0005380405895680989, -0.001404833701963294, 0.0005828229256646568, -4.880412295379863e-05, 7.564661354185534e-07;
+ -0.02823072351799745, 0.161939623105799, -0.1553763296913129, 0.0301769170525801, -0.001055910519066278;
+ 0.03531077185513139, -0.4501276428874629, 1, -0.4501276428874629, 0.03531077185513139;
+ -0.001055910519066278, 0.0301769170525801, -0.1553763296913129, 0.161939623105799, -0.02823072351799745;
+ 7.564661354185534e-07, -4.880412295379863e-05, 0.0005828229256646568, -0.001404833701963294, 0.0005380405895680989];
 
-sigma = sigma_arr(2);
-theta = theta_arr(2);
-for x=1:N
-  for y=1:M
-      x_theta=img(x,y)*cos(theta)+img(x,y)*sin(theta);
-      y_theta=-img(x,y)*sin(theta)+img(x,y)*cos(theta);
-      g2(x,y)= exp(-(x_theta.^2/2*sigma^2+ gamma^2*y_theta.^2/2*sigma^2))*cos(2*pi/lambda*x_theta+psi);
-  end
-end
-
-sigma = sigma_arr(3);
-theta = theta_arr(3);
-for x=1:N
-  for y=1:M
-      x_theta=img(x,y)*cos(theta)+img(x,y)*sin(theta);
-      y_theta=-img(x,y)*sin(theta)+img(x,y)*cos(theta);
-      g3(x,y)= exp(-(x_theta.^2/2*sigma^2+ gamma^2*y_theta.^2/2*sigma^2))*cos(2*pi/lambda*x_theta+psi);
-  end
-end
+% gamma = 2;
+% lambda = 0.6;
+% psi = 0;
+% pi=180;
+% [N M] = size(img);
+% 
+% g1 = zeros(N,M);
+% g2 = zeros(N,M);
+% g3 = zeros(N,M);
+% 
+% sigma = sigma_arr(1);
+% theta = theta_arr(1);
+% for x=1:N
+%   for y=1:M
+%       x_theta=img(x,y)*cos(theta)+img(x,y)*sin(theta);
+%       y_theta=-img(x,y)*sin(theta)+img(x,y)*cos(theta);
+%       g1(x,y)= exp(-(x_theta.^2/2*sigma^2+ gamma^2*y_theta.^2/2*sigma^2))*cos(2*pi/lambda*x_theta+psi);
+%   end
+% end
+% 
+% sigma = sigma_arr(2);
+% theta = theta_arr(2);
+% for x=1:N
+%   for y=1:M
+%       x_theta=img(x,y)*cos(theta)+img(x,y)*sin(theta);
+%       y_theta=-img(x,y)*sin(theta)+img(x,y)*cos(theta);
+%       g2(x,y)= exp(-(x_theta.^2/2*sigma^2+ gamma^2*y_theta.^2/2*sigma^2))*cos(2*pi/lambda*x_theta+psi);
+%   end
+% end
+% 
+% sigma = sigma_arr(3);
+% theta = theta_arr(3);
+% for x=1:N
+%   for y=1:M
+%       x_theta=img(x,y)*cos(theta)+img(x,y)*sin(theta);
+%       y_theta=-img(x,y)*sin(theta)+img(x,y)*cos(theta);
+%       g3(x,y)= exp(-(x_theta.^2/2*sigma^2+ gamma^2*y_theta.^2/2*sigma^2))*cos(2*pi/lambda*x_theta+psi);
+%   end
+% end
 
 end
 

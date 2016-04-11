@@ -6,7 +6,7 @@ theta = [30 45 60];
 
 %Create Filters
 [g_x,g_y] = make_gaussian(k,sigma_g);
-lap = make_laplacian(0.2);
+lap = fspecial('log');
 
 img=im2double(imread('04201d182_1.jp2'));
 %Go through training images and convolve with filters
@@ -18,9 +18,9 @@ lap_filtered = imfilter(img,lap);
 
 %Apply Gabor filter
 [g1,g2,g3] = make_gabor(img,sigma,theta);
-g1_filt = g1;
-g2_filt = g2;
-g3_filt = g3;
+g1_filt = imfilter(img,g1);
+g2_filt = imfilter(img,g2);
+g3_filt = imfilter(img,g3);
 
 %Plot example
 subplot(2,3,1);
@@ -48,9 +48,9 @@ for file = files'
     f1 = reshape(imfilter(imfilter(img,g_x),g_y),1,[]);
     f2 = reshape(imfilter(img,lap),1,[]);
     [g1,g2,g3] = make_gabor(img,sigma,theta);
-    f3 = reshape(g1,1,[]);
-    f4 = reshape(g2,1,[]);
-    f5 = reshape(g3,1,[]);
+    f3 = reshape(imfilter(img,g1),1,[]);
+    f4 = reshape(imfilter(img,g2),1,[]);
+    f5 = reshape(imfilter(img,g3),1,[]);
     
     X_male(i,:) = [f1 f2 f3 f4 f5];
     i = i+1;
@@ -68,9 +68,9 @@ for file = files'
     f1 = reshape(imfilter(imfilter(img,g_x),g_y),1,[]);
     f2 = reshape(imfilter(img,lap),1,[]);
     [g1,g2,g3] = make_gabor(img,sigma,theta);
-    f3 = reshape(g1,1,[]);
-    f4 = reshape(g2,1,[]);
-    f5 = reshape(g3,1,[]);
+    f3 = reshape(imfilter(img,g1),1,[]);
+    f4 = reshape(imfilter(img,g2),1,[]);
+    f5 = reshape(imfilter(img,g3),1,[]);
     
     X_female(i,:) = [f1 f2 f3 f4 f5];
     i = i+1;
@@ -81,20 +81,20 @@ X = [X_male;X_female];
 y = zeros(1,size(X,1));
 y(51:end) = 1;
 
-model = fitcsvm(X,y,'KernelFunction','rbf','Standardize',true);
+model = svmtrain(X,y,'autoscale',false);%fitcsvm(X,y,'KernelFunction','rbf');%,'Standardize',true);
 
 printHyperplane('svm_model',model);
 
 %Test classifier on test images
-img=im2double(imread('04201d182_1.jp2'));
-
-f1 = reshape(imfilter(imfilter(img,g_x),g_y),1,[]);
-f2 = reshape(imfilter(img,lap),1,[]);
-[g1,g2,g3] = make_gabor(img,sigma,theta);
-f3 = reshape(g1,1,[]);
-f4 = reshape(g2,1,[]);
-f5 = reshape(g3,1,[]);
-
-newX = [f1 f2 f3 f4 f5];
-
-[label, score] = predict(model,newX)
+% img=im2double(imread('04201d182_1.jp2'));
+% 
+% f1 = reshape(imfilter(imfilter(img,g_x),g_y),1,[]);
+% f2 = reshape(imfilter(img,lap),1,[]);
+% [g1,g2,g3] = make_gabor(img,sigma,theta);
+% f3 = reshape(g1,1,[]);
+% f4 = reshape(g2,1,[]);
+% f5 = reshape(g3,1,[]);
+% 
+% newX = [f1 f2 f3 f4 f5];
+% 
+% [label, score] = predict(model,newX)
