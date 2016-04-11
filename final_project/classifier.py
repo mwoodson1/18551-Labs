@@ -13,16 +13,15 @@ Test Pre-process:
 Classification:
 	Perform KNN, SVM, or any other classification algorithm we would like to try
 '''
-import os
+import os, pickle, cv2
 import numpy as np
-import cv2
 from numpy import linalg as LA
-from sklearn import preprocessing
-from sklearn.cross_validation import train_test_split
-from sklearn.decomposition import PCA
-from sklearn import svm
-from sklearn.neighbors import KNeighborsClassifier
+from sklearn.lda import LDA
 from sklearn.pipeline import Pipeline
+from sklearn.cross_validation import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import preprocessing
+from sklearn.grid_search import GridSearchCV
 
 def denoiseSilhouette(img):
 	'''
@@ -122,7 +121,7 @@ def loadData(datapath,dataset):
 		print "Invalid dataset input"
 		return 0
 
-def gridSearch(X_train,y_train):
+def gridSearch(X_train,y_train,angle):
 	"""
 	Performs a grid search to find the best classifier hyperparameters using LDA
 	with a KNN classifier.
@@ -139,4 +138,38 @@ def gridSearch(X_train,y_train):
 	grid_search = GridSearchCV(clf,param_grid=params)
 	grid_search.fit(X_train,y_train)
 
+	pickle.dump(grid_search,open("model"+str(angle)+".p","wb"))
 	return grid_search
+
+def trainAngleClf(X,y,angle):
+	#Classifier for angle1
+	print "Training classifier for angle "+str(angle)+"..."
+	X = X[angle,:,:]
+	y = y[angle,:]
+
+	#Create train and test split
+	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+	#Check if model is already cached
+	if(os.path.isfile("model"+str(angle)+".p")):
+		print("Loading cached model for angle"+str(angle)+"...")
+		clf = pickle.load(open("model"+str(angle)+".p","rb"))
+	else:
+		clf = gridSearch(X_train,y_train,angle)
+
+	print clf.score(X_test,y_test)
+	return clf
+
+#Load data
+print("Loading data...")
+X, y = loadData('data','MOBO')
+le = preprocessing.LabelEncoder()
+le.fit(np.unique(y))
+y = le.transform(y)
+
+clf0 = trainAngleClf(X,y,0)
+clf1 = trainAngleClf(X,y,1)
+clf2 = trainAngleClf(X,y,2)
+clf3 = trainAngleClf(X,y,3)
+clf4 = trainAngleClf(X,y,4)
+clf5 = trainAngleClf(X,y,5)
